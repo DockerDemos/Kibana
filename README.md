@@ -29,7 +29,7 @@ Enjoy!
 
 Kibana is Copyright 2012-2014 Elasticsearch BV
 
-The DockerDemos/ElasticSearch code here is:
+The DockerDemos/Kibana Docker image here is:
  
 Copyright (C) 2014 Chris Collins
 
