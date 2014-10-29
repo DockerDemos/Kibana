@@ -5,10 +5,17 @@ Kibana Docker Image
 
 __Building and Running__
 
-1. `git clone https://github.com/DockerDemos/Kibana`
-2. `cd Kibana`
-3. `docker build -t kibana .  \<-- note the period on the end`
-4. `docker run -p 80:80 --link elegant_brown:es -d kibana <hostname>`
+`git clone https://github.com/DockerDemos/Kibana`
+`cd Kibana`
+`docker build -t kibana .`  \<-- note the period on the end
+
+If you're running Elasticsearch inside another Docker container:
+
+`docker run -p 80:80 --link <your_elasticsearch_container>:elastic -d kibana <hostname>`
+
+Otherwise, if you're running Elasticsearch elsewhere:
+
+`docker run -p 80:80 -d kibana <hostname>`
 
 Replacing \<hostname\> with the fully qualified domain name of your Elasticsearch instance.  Note that port 9200 on the Elasticsearch instance must be accessable by the host running this Kibana instance.
 

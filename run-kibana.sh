@@ -1,8 +1,7 @@
 #!/bin/sh
 
-ES_HOST="$1"
-
-/bin/sed -i 's/"+window.location.hostname+"/$1' /var/www/html/config.js
+/bin/sed -i "s/\"+window.location.hostname+\"/${ELASTIC_PORT_9200_TCP_ADDR}/" \
+/var/www/html/config.js
 
 exec /usr/sbin/httpd -DFOREGROUND
 
