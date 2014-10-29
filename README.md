@@ -6,7 +6,9 @@ Kibana Docker Image
 __Building and Running__
 
 `git clone https://github.com/DockerDemos/Kibana`
+
 `cd Kibana`
+
 `docker build -t kibana .`  \<-- note the period on the end
 
 If you're running Elasticsearch inside another Docker container:
