@@ -1,25 +1,20 @@
 # Docker image for running Kibana
 #
-# http://www.elasticsearch.org/overview/kibana/installation/
+# http://www.elastic.co/guide/en/kibana/current/setup.html
 #
-# Due to a bug we MUST USE el6 until patch upstream makes it into packages
-# unless the image will be built on a RHEL-based (CentOS, Scientific Linux) host
-#
-# See:
-# https://github.com/docker/docker/pull/5930
 
-FROM centos:centos6
+FROM centos:centos7
 MAINTAINER Chris Collins <collins.christopher@gmail.com>
 
-ENV PKG https://download.elasticsearch.org/kibana/kibana/kibana-3.1.1.tar.gz
+ENV PKG https://download.elastic.co/kibana/kibana/kibana-4.0.2-linux-x64.tar.gz
+ENV KIBANA_DIR /kibana
 
-RUN yum install -y httpd tar
+RUN yum install -y tar
 
-RUN curl -sSL $PKG | tar -xz  -C /var/www/html --strip-components=1
-
+RUN mkdir $KIBANA_DIR
+RUN curl -sSL $PKG | tar -xz  -C /kibana --strip-components=1
 ADD run-kibana.sh /run-kibana.sh
 
-EXPOSE 80
-EXPOSE 443
+EXPOSE 5601
 
 ENTRYPOINT [ "/run-kibana.sh" ]
