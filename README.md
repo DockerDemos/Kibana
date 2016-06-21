@@ -17,25 +17,38 @@ If you're running Elasticsearch inside another Docker container:
 
 Otherwise, if you're running Elasticsearch elsewhere:
 
-`docker run -p 5601:5601 -d kibana <hostname>`
+`docker run -p 5601:5601 -e KIBANA_CONFIG_ELASTIC_URL=<ELASTICSEARCH_SERVER_URL> -d kibana`
 
-Replacing \<hostname\> with the fully qualified domain name of your Elasticsearch instance.  Note that port 9200 on the Elasticsearch instance must be accessable by the host running this Kibana instance.
+Note that the Elasticsearch instance URL must be in the format "http://ELASTIC.SEARCH.URL:PORT".  HTTP or HTTPS are valid schemes.
 
 Finally, point your browser to the host running Kibana on port 5601, and check out your Kibana instance.
 
 Enjoy!
 
-##Copyright Information##
 
-Kibana is Copyright Elasticsearch BV
+__Additional Config Variables__
 
-The DockerDemos/Kibana Docker image here is:
- 
-Copyright (C) 2014-2015 Chris Collins
+The container will accept the following environmental variables to configure Kibana:
 
-This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
+*KIBANA_CONFIG_SERVER_HOST*
 
-This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+* Tells Kibana which interface to listen on
+* Defaults to 127.0.0.1
 
-You should have received a copy of the GNU General Public License along with this program. If not, see http://www.gnu.org/licenses/.
+*KIBANA_CONFIG_SERVER_BASEPATH*
+
+* Tells Kibana to use an alternate path for the base URL (useful behind a reverse proxy).
+* Defaults to /
+
+*ELASTIC_PORT_9200_TCP_ADDR*
+
+* Created automatically if linked to an ElasticSearch container (as "elastic")
+* Tells Kibana to use the linked ElasticSearch container as it's backend
+* Conflicts with (and takes presidence over) "KIBANA_CONFIG_ELASTIC_URL".  See below.
+
+*KIBANA_CONFIG_ELASTIC_URL*
+
+* Tells Kibana to use the URL provided as it's ElasticSearch backend
+* Conflicts with (and is overridden by) "ELASTIC_PORT_9200_TCP_ADDR".  See above.
+* Must be in the format "SCHEME://ELASTIC.SEARCH.URL:PORT".  Scheme may be HTTP or HTTPS.
 

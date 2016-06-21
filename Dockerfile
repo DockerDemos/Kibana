@@ -20,4 +20,4 @@ RUN chmod -R a+x /etc/service/kibana
 
 EXPOSE 5601
 
-ENTRYPOINT [ "/run-kibana.sh" ]
+ENTRYPOINT [ "bash", "/etc/service/kibana/run" ]

@@ -8,9 +8,21 @@ else
   sed -i "/# server.host: \"0.0.0.0\"/c\server.host: \"${KIBANA_CONFIG_SERVER_HOST}\"" $KIBANA_CONFIG || exit 1
 fi
 
+if [[ -z $KIBANA_CONFIG_SERVER_BASEPATH ]]
+  then echo "KIBANA_CONFIG_SERVER_BASEPATH not set. Defaulting to /."
+else
+  sed -i "/# server.basePath: \"\"/c\server.basePath: \"${KIBANA_CONFIG_SERVER_BASEPATH}\"" $KIBANA_CONFIG || exit 1
+fi
+
 if [[ ! -z  $ELASTIC_PORT_9200_TCP_ADDR ]]
-  then echo "Elastic Search container linked.  Setting Elastic URL"
-  sed -i "/# elasticsearch.url: \"http://localhost:9200\"/c\elasticsearch.url: \"http://${ELASTIC_PORT_9200_TCP_ADDR}:9200\"" || exit 1
+  then echo "ElasticSearch container linked.  Setting Elastic URL"
+  sed -i "/# elasticsearch.url: \"http:\/\/localhost:9200\"/c\elasticsearch.url: \"http:\/\/${ELASTIC_PORT_9200_TCP_ADDR}:9200\"" $KIBANA_CONFIG || exit 1
+elif [[ ! -z $KIBANA_CONFIG_ELASTIC_URL ]]
+  then echo "ElasticSearch URL given.  Setting for external ElasticSearch server."
+  sed -i "/# elasticsearch.url: \"http:\/\/localhost:9200\"/c\elasticsearch.url: \"${KIBANA_CONFIG_ELASTIC_URL}\"" $KIBANA_CONFIG || exit 1
+else
+  echo "FATAL - No ElasticSearch DB specified.  Booooo. "
+  exit 1
 fi
 
 exec /opt/kibana/bin/kibana
