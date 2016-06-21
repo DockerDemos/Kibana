@@ -1,0 +1,16 @@
+#!/bin/bash
+
+KIBANA_CONFIG='/opt/kibana/config/kibana.yml'
+
+if [[ -z $KIBANA_CONFIG_SERVER_HOST ]]
+  then echo "KIBANA_CONFIG_SERVER_HOST not set.  Defaulting to localhost."
+else
+  sed -i "/# server.host: \"0.0.0.0\"/c\server.host: \"${KIBANA_CONFIG_SERVER_HOST}\"" $KIBANA_CONFIG || exit 1
+fi
+
+if [[ ! -z  $ELASTIC_PORT_9200_TCP_ADDR ]]
+  then echo "Elastic Search container linked.  Setting Elastic URL"
+  sed -i "/# elasticsearch.url: \"http://localhost:9200\"/c\elasticsearch.url: \"http://${ELASTIC_PORT_9200_TCP_ADDR}:9200\"" || exit 1
+fi
+
+exec /opt/kibana/bin/kibana

@@ -6,13 +6,17 @@
 FROM centos:centos7
 MAINTAINER Chris Collins <collins.christopher@gmail.com>
 
-ENV PKG="https://download.elastic.co/kibana/kibana/kibana-4.1.2-linux-x64.tar.gz"
+ENV KEY 'https://packages.elastic.co/GPG-KEY-elasticsearch'
 
-RUN yum install -y tar
+ADD kibana.repo /etc/yum.repos.d/kibana.repo
 
-RUN mkdir /kibana
-RUN curl -sSL $PKG | tar -xz  -C /kibana --strip-components=1
-ADD run-kibana.sh /run-kibana.sh
+RUN rpm --import $KEY \
+    && yum install -y kibana \
+    && yum clean all
+
+RUN mkdir -p /etc/service/kibana
+ADD kibana.run /etc/service/kibana/run
+RUN chmod -R a+x /etc/service/kibana
 
 EXPOSE 5601
 
