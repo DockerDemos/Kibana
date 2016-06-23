@@ -1,7 +1,10 @@
 Changelog
 =========
 
-* TUE June 21 2016 Chris Collins <christopher.collins@duke.edu> 
+* Thu June 23 2016 Chris Collins <christopher.collins@duke.edu> 
+- changed kibana.run to use linked container name instead of IP, so it will stay valid through restarts
+
+* Tue June 21 2016 Chris Collins <christopher.collins@duke.edu> 
 - Upgraded to 4.5 branch, RPM install
 - Added Changelog
 
